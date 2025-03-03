@@ -28,7 +28,7 @@ const Login = () => {
     }
 
     setError("");
-    navigate("/"); //homr page
+    navigate("/home"); //homr page
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
