@@ -93,7 +93,7 @@ const Signup = () => {
         {/* Support Link */}
         <p className="text-center mt-4">
           ALredy a user?{" "}
-          <Link to="/login" className="text-blue-500 font-bold">
+          <Link to="/" className="text-blue-500 font-bold">
             Login
           </Link>
         </p>
