@@ -31,14 +31,14 @@ const CorporaterUser = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-gray-100 flex justify-center items-center ">
+    <div className="w-full min-h-screen bg-gray-100 flex justify-center items-center p-4">
       {menuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <Navbar closeMenu={() => setMenuOpen(false)} />
         </div>
       )}
 
-      <div className="w-[375px] h-full bg-white shadow-md rounded-xl p-4 relative">
+      <div className="w-[375px] bg-white shadow-md rounded-xl p-4 relative mx-auto">
         <div className="flex justify-between items-center p-2 border-b">
           <IoMdMenu
             className="text-2xl cursor-pointer"
@@ -50,13 +50,13 @@ const CorporaterUser = () => {
           </Link>
         </div>
 
-        <div className="h-[550px] overflow-y-scroll no-scrollbar p-2">
-          <h2 className="text-xl font-bold text-center mb-4">
+        <div className="overflow-y-auto">
+          <h2 className="text-xl font-bold text-center mb-1">
             Corporate Registration
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="">
+            <div>
               <input
                 type="text"
                 name="fullName"
@@ -87,12 +87,14 @@ const CorporaterUser = () => {
                 placeholder="Email Id"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full p-2 border rounded-full  border-purple-700 "
+                className="w-full p-2 border rounded-full border-purple-700"
                 required
               />
             </div>
 
-            <h3 className="text-md font-semibold text-center">Business Info</h3>
+            <h3 className="text-md font-semibold text-center mt-auto">
+              Business Info
+            </h3>
 
             <div>
               <input
@@ -122,7 +124,7 @@ const CorporaterUser = () => {
               <input
                 type="text"
                 name="businessCategory"
-                placeholder=" Business Category"
+                placeholder="Business Category"
                 value={formData.businessCategory}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-full border-purple-700"
@@ -136,7 +138,7 @@ const CorporaterUser = () => {
                 placeholder="Address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full p-2 border rounded-full border-purple-700"
+                className="w-full p-2 border rounded-lg border-purple-700"
                 required
               ></textarea>
             </div>
@@ -199,7 +201,7 @@ const CorporaterUser = () => {
           </form>
 
           <p className="text-center mt-4">
-            ALredy a user?{" "}
+            Already a user?{" "}
             <Link to="/" className="text-blue-500 font-bold">
               Login
             </Link>
@@ -216,5 +218,4 @@ const CorporaterUser = () => {
     </div>
   );
 };
-
 export default CorporaterUser;

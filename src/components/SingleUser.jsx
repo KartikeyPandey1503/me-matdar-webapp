@@ -44,7 +44,7 @@ const SingleUser = () => {
             className="text-2xl cursor-pointer"
             onClick={() => setMenuOpen(true)}
           />
-          <h2 className="text-lg font-semibold">Register</h2>
+          <h2 className="text-lg font-semibold">Single User</h2>
           <Link to="/register">
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
