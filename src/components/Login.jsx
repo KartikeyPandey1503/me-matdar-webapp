@@ -37,7 +37,7 @@ const Login = () => {
     }
 
     setError("");
-    navigate("/home"); //homr page
+
     navigate("/home"); // Redirect to the home page
   };
 
