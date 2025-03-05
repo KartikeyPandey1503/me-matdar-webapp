@@ -9,7 +9,10 @@ import ContactUs from "./components/ContactUs";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Shareapp from "./components/Shareapp";
-
+import Register from "./components/Register";
+import CorporateUser from "./components/CorporateUser";
+import SingleUser from "./components/SingleUser";
+import "./App.css";
 function App() {
   return (
     <Routes>
@@ -22,6 +25,9 @@ function App() {
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/shareapp" element={<Shareapp />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/singleuser" element={<SingleUser />} />
+      <Route path="/corporateuser" element={<CorporateUser />} />
     </Routes>
   );
 }

@@ -48,19 +48,29 @@ const Navbar = ({ closeMenu }) => {
             Contact Us
           </Link>
         </li>
-        <li className="font-semibold">App Share</li>
+        <li className="font-semibold">
+          <Link to="/register">Register</Link>
+        </li>
         <ul className="ml-4 text-gray-600">
           <li>
-            <Link to="#" onClick={closeMenu}>
+            <Link to="/singleuser" onClick={closeMenu}>
               • Single User
             </Link>
           </li>
           <li>
-            <Link to="#" onClick={closeMenu}>
+            <Link to="/corporateuser" onClick={closeMenu}>
               • Corporate User
             </Link>
           </li>
         </ul>
+
+        <li className="font-semibold">
+          <Link to="/" onClick={closeMenu}>
+            <button className="w-full bg-purple-600 text-white rounded-full py-2 mt-4 text-lg">
+              Logout
+            </button>
+          </Link>
+        </li>
       </ul>
     </div>
   );
