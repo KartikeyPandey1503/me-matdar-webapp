@@ -34,13 +34,13 @@ const Signup = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="w-full h-screen bg-gray-100 flex justify-center items-center relative">
+    <div className="w-full min-h-screen bg-gray-100 flex justify-center items-center relative">
       {menuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <Navbar closeMenu={() => setMenuOpen(false)} />
         </div>
       )}
-      <div className="w-[375px] h-full bg-white shadow-md rounded-xl p-4 relative">
+      <div className="w-[375px]  bg-white shadow-md rounded-xl p-4 relative">
         {/* Header */}
         <div className="flex justify-between items-center">
           <IoMdMenu
