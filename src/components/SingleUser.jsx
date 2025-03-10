@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 const SingleUser = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ const SingleUser = () => {
     fullName: "",
     mobileNo: "",
     email: "",
-    needUserId: "",
+    password: "",
     businessName: "",
     businessCategory: "",
     address: "",
@@ -23,15 +24,28 @@ const SingleUser = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Registration Successful!");
+
+    //navigate
+
+    // Generate a unique user ID
+    const userId = `USER-${Date.now()}`;
+
+    const userData = { ...formData, userId };
+
+    // Store user data in localStorage
+    localStorage.setItem("registeredUser", JSON.stringify(userData));
+
+    console.log("User Registered:", userData);
+    alert(`Registration Successful! Your User ID: ${userId}`);
+
+    navigate("/");
   };
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex justify-center items-center p-4">
+    <div className="w-full h-full bg-gray-100 flex justify-center items-center relative">
       {menuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <Navbar closeMenu={() => setMenuOpen(false)} />
@@ -45,7 +59,7 @@ const SingleUser = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold">Single User</h2>
-          <Link to="/register">
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>
@@ -86,6 +100,17 @@ const SingleUser = () => {
                 name="email"
                 placeholder="Email Id"
                 value={formData.email}
+                onChange={handleChange}
+                className="w-full p-2 border rounded-full border-purple-700"
+                required
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-full border-purple-700"
                 required
@@ -196,13 +221,6 @@ const SingleUser = () => {
             Already a user?{" "}
             <Link to="/" className="text-blue-500 font-bold">
               Login
-            </Link>
-          </p>
-
-          <p className="text-center mt-4">
-            If not Login Contact to{" "}
-            <Link to="#" className="text-blue-500 font-bold">
-              Support
             </Link>
           </p>
         </div>

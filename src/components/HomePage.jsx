@@ -1,15 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
-import { FiShare2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Default images for slider
+  const defaultImages = [
+    "https://media.istockphoto.com/id/2152515127/photo/southern-lights-over-lake-te-anau.jpg?s=1024x1024&w=is&k=20&c=UgpP14LeS2aeICcMxkkTH8jtnYE5V8DRsPaA_qlimlQ=",
+    "https://media.istockphoto.com/id/1822247032/photo/aerial-view-of-serpentine-road-in-swiss-alps-in-autumn.jpg?s=1024x1024&w=is&k=20&c=X_m7HBseg1VryJCTwn074AXTldZYiC28ddgyFVQXNfc=",
+    "https://media.istockphoto.com/id/2153573059/photo/mountain-covered-with-a-coniferous-fir-tree-forest-scenic-landscape-from-carpathian-mountains.jpg?s=1024x1024&w=is&k=20&c=hwDTriUtxDP_4A6jQKVRWTTTXLf8jim4w3w1K2dcaHU=",
+  ];
+
+  const [images, setImages] = useState(defaultImages);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(true); // Set to `true` for admin editing
+
+  // Auto-slide every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images]);
+
+  // Handle image upload (Admin only)
+  const handleImageUpload = (e, index) => {
+    if (!isAdmin) return;
+    const file = e.target.files[0];
+    if (file) {
+      const newImageURL = URL.createObjectURL(file);
+      setImages((prev) => {
+        const newImages = [...prev];
+        newImages[index] = newImageURL;
+        return newImages;
+      });
+    }
+  };
+
   return (
-    <div className="w-full h-screen bg-gray-100 flex justify-center items-center relative">
+    <div className="w-full h-full bg-gray-100 flex justify-center items-center relative">
       {menuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <Navbar closeMenu={() => setMenuOpen(false)} />
@@ -24,15 +61,38 @@ const HomePage = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold cursor-pointer">Home Page</h2>
-          <Link to="/shareapp">
-            <FiShare2 className="text-2xl cursor-pointer" />
+          <Link onClick={() => navigate(-1)}>
+            <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>
 
         {/* Slider Image Section */}
-        <div className="mt-4 p-10 border-2 border-purple-500 rounded-lg text-center cursor-pointer">
-          <p className="font-semibold">Slider Image</p>
-          <p className="text-sm text-gray-600">(Super admin can change)</p>
+        <div className="mt-4 p-4 border-2 border-purple-500 rounded-lg text-center">
+          {/* Image Slider */}
+          <div className="relative w-full h-40 mt-2 overflow-hidden rounded-lg">
+            <img
+              src={images[currentIndex]}
+              alt="Slider"
+              className="w-full h-full object-cover transition-all duration-500 ease-in-out"
+            />
+          </div>
+
+          {/* Admin-only Image Upload Inputs */}
+          {isAdmin && (
+            <div className="mt-2 flex flex-wrap justify-center space-x-2">
+              {images.map((_, index) => (
+                <label key={index} className="cursor-pointer text-blue-600">
+                  Change Image {index + 1}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => handleImageUpload(e, index)}
+                  />
+                </label>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Feature Buttons */}
@@ -68,7 +128,7 @@ const HomePage = () => {
 };
 
 const features = [
-  { label: "Auto call Message", icon: <FaPhoneAlt />, link: "/page3" }, // Corrected Link format
+  { label: "Auto call Message", icon: <FaPhoneAlt />, link: "/page3" },
   { label: "Daily Banner", icon: null },
   { label: "Mini website", icon: null },
   { label: "Bulk Messenger", icon: null },

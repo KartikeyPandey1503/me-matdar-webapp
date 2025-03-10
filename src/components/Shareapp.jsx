@@ -5,8 +5,11 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import { FaShare } from "react-icons/fa";
 import logo from "../images/logo.jpg";
+import { useNavigate } from "react-router-dom";
 
 const ContactUs = () => {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center ">
@@ -22,7 +25,7 @@ const ContactUs = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold">Share App</h2>
-          <Link to="/">
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>

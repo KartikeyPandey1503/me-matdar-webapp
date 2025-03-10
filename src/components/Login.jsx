@@ -1,98 +1,72 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { IoMdMenu } from "react-icons/io";
-import Navbar from "./Navbar";
 import logo from "../images/logo.jpg";
 
 const Login = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    userId: "",
-    mobileNo: "",
-    name: "",
-  });
+  const [userId, setUserId] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Registration Successful!");
+    setError("");
 
-    // Basic validation
-    if (!formData.userId || !formData.mobileNo || !formData.name) {
+    if (!userId || !mobileNo || !password) {
       setError("All fields are required.");
       return;
     }
 
-    if (!/^\d{10}$/.test(formData.mobileNo)) {
-      setError("Invalid mobile number. Must be 10 digits.");
-      return;
+    setLoading(true);
+
+    // ✅ Retrieve stored user data from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+    if (
+      storedUser &&
+      storedUser.userId === userId &&
+      storedUser.mobileNo === mobileNo &&
+      storedUser.password === password
+    ) {
+      // ✅ Save login session
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("loggedInUserId", userId);
+
+      setTimeout(() => {
+        setLoading(false);
+        alert("Login Successful!");
+        navigate("/home");
+      }, 1500);
+    } else {
+      setLoading(false);
+      setError("Invalid User ID, Mobile Number, or Password");
     }
-
-    setError("");
-
-    navigate("/home"); // Redirect to the home page
   };
 
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center">
-      {menuOpen && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
-          <Navbar closeMenu={() => setMenuOpen(false)} />
-        </div>
-      )}
-
       <div className="w-[375px] h-full bg-white shadow-md rounded-xl p-4 relative">
-        {/* Header */}
-        <div className="flex justify-between items-center p-2 border-b">
-          <IoMdMenu
-            className="text-2xl cursor-pointer"
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-          />
-          <h2 className="text-lg font-semibold">Login</h2>
-          <Link to="/">
-            <div className="text-2xl cursor-pointer">{"<"}</div>
-          </Link>
+        <div className="text-center p-2 border-b">
+          <h2 className="text-lg font-semibold">User Login</h2>
         </div>
 
-        {/* Login Form */}
         <div className="h-[550px] overflow-y-scroll no-scrollbar p-2">
-          <img src={logo} alt="logo" />
-
-          <h2 className="text-xl font-bold text-center mb-4">Login</h2>
+          <img src={logo} alt="logo" className="mx-auto w-50" />
 
           {error && (
             <p className="text-red-500 text-sm text-center mb-4">{error}</p>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <input
                 type="text"
-                name="userId"
                 placeholder="User ID"
-                value={formData.userId}
-                onChange={handleChange}
-                className="w-full p-2 border rounded-full border-purple-700"
-                required
-              />
-            </div>
-
-            <div>
-              <input
-                type="tel"
-                name="mobileNo"
-                placeholder="Mobile No."
-                value={formData.mobileNo}
-                onChange={handleChange}
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
                 className="w-full p-2 border rounded-full border-purple-700"
                 required
               />
@@ -101,10 +75,20 @@ const Login = () => {
             <div>
               <input
                 type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
+                placeholder="Mobile Number"
+                value={mobileNo}
+                onChange={(e) => setMobileNo(e.target.value)}
+                className="w-full p-2 border rounded-full border-purple-700"
+                required
+              />
+            </div>
+
+            <div>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-2 border rounded-full border-purple-700"
                 required
               />
@@ -112,21 +96,26 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700"
+              className={`w-full p-2 rounded-full text-white ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-purple-600 hover:bg-purple-700"
+              }`}
+              disabled={loading}
             >
-              Submit
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
           <p className="text-center mt-4">
-            Not a user?{" "}
+            New user?{" "}
             <Link to="/register" className="text-blue-500 font-bold">
-              Signup
+              Register
             </Link>
           </p>
 
           <p className="text-center mt-4">
-            If not Login Contact to{" "}
+            If not Login Contact{" "}
             <Link to="#" className="text-blue-500 font-bold">
               Support
             </Link>

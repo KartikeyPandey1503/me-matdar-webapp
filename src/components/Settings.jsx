@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoMdMenu } from "react-icons/io";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
+  const navigate = useNavigate();
+
   const [settings, setSettings] = useState({
     sim1: false,
     sim2: false,
@@ -13,7 +16,7 @@ const Settings = () => {
     businessWhatsApp: false,
     accessibility: false,
     backgroundSetting: false,
-    messageTime: false,
+    messageTime: true,
   });
 
   const toggleSetting = (key) => {
@@ -24,6 +27,36 @@ const Settings = () => {
   };
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [deviceInfo, setDeviceInfo] = useState("Detecting...");
+
+  useEffect(() => {
+    const getDeviceInfo = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+
+      if (userAgent.includes("samsung")) {
+        return "Samsung Device";
+      } else if (userAgent.includes("vivo")) {
+        return "Vivo Device";
+      } else if (userAgent.includes("oppo")) {
+        return "Oppo Device";
+      } else if (userAgent.includes("moto")) {
+        return "Motorola Device";
+      } else if (userAgent.includes("iphone")) {
+        return "Apple iPhone";
+      } else if (userAgent.includes("ipad")) {
+        return "Apple iPad";
+      } else if (userAgent.includes("windows")) {
+        return "Windows PC";
+      } else if (userAgent.includes("mac")) {
+        return "MacBook / iMac";
+      } else {
+        return "Unknown Device";
+      }
+    };
+
+    setDeviceInfo(getDeviceInfo());
+  }, []);
+
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center ">
       {menuOpen && (
@@ -40,7 +73,7 @@ const Settings = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold">Setting</h2>
-          <Link to="/page3">
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>
@@ -73,11 +106,9 @@ const Settings = () => {
 
         {/* Info Section */}
         <div className="mt-4 text-center">
-          <p className="font-semibold">Click here for setting demo</p>
+          <p className="font-semibold">Your Device Information</p>
           <div className="border-2 border-purple-500 p-3 rounded-lg mt-2">
-            <p>Samsung</p>
-            <p>Vivo / Oppo</p>
-            <p>Moto</p>
+            <p>{deviceInfo}</p>
             <p className="text-blue-600 cursor-pointer">
               (Youtube link attached)
             </p>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 const CorporaterUser = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,8 +31,10 @@ const CorporaterUser = () => {
     alert("Registration Successful!");
   };
 
+  const navigate = useNavigate();
+
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex justify-center items-center p-4">
+    <div className="w-full h-full bg-gray-100 flex justify-center items-center relative">
       {menuOpen && (
         <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
           <Navbar closeMenu={() => setMenuOpen(false)} />
@@ -45,7 +48,7 @@ const CorporaterUser = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold">Corporate User</h2>
-          <Link to="/register">
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>

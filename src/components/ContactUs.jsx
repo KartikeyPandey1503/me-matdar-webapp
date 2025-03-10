@@ -3,7 +3,11 @@ import { IoMdMenu } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+
 const ContactUs = () => {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center ">
@@ -19,7 +23,7 @@ const ContactUs = () => {
             onClick={() => setMenuOpen(true)}
           />
           <h2 className="text-lg font-semibold">Contact Us</h2>
-          <Link to="/home">
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>

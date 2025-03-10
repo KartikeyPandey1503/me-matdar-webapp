@@ -1,27 +1,18 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { IoMdMenu } from "react-icons/io";
-import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
+
 import logo from "../images/logo2.jpg";
 const Register = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center ">
-      {menuOpen && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50">
-          <Navbar closeMenu={() => setMenuOpen(false)} />
-        </div>
-      )}
-
       <div className="w-[375px] h-full bg-white shadow-md rounded-xl p-4 relative">
-        <div className="flex justify-between items-center p-2 border-b">
-          <IoMdMenu
-            className="text-2xl cursor-pointer"
-            onClick={() => setMenuOpen(true)}
-          />
-          <h2 className="text-lg font-semibold">Register</h2>
-          <Link to="/">
+        {/* Header */}
+
+        <div className="flex  items-center p-2 border-b">
+          <h2 className="text-lg font-semibold mx-auto ">Register</h2>
+          <Link onClick={() => navigate(-1)}>
             <div className="text-2xl cursor-pointer">{"<"}</div>
           </Link>
         </div>

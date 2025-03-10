@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
 const Navbar = ({ closeMenu }) => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const loggedInUserId = localStorage.getItem("loggedInUserId");
+
+    // Retrieve the stored user object
+    const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+    console.log("Stored User:", storedUser);
+
+    // Ensure the user exists and matches the logged-in ID
+    if (storedUser && storedUser.userId === loggedInUserId) {
+      setUserName(storedUser.fullName);
+    }
+  }, []);
+
   return (
     <div className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg p-6 z-50">
       {/* Close Button */}
@@ -11,8 +27,15 @@ const Navbar = ({ closeMenu }) => {
         onClick={closeMenu}
       />
 
+      {/* Display Logged-in User */}
+      {userName && (
+        <div className="text-lg font-semibold text-center mb-6 mt-8">
+          Welcome, {userName}!
+        </div>
+      )}
+
       {/* Menu Items */}
-      <ul className="space-y-4 mt-10 text-black">
+      <ul className="space-y-4 mt-4 text-black">
         <li className="font-semibold">
           <Link to="/home" onClick={closeMenu}>
             Home
@@ -29,7 +52,7 @@ const Navbar = ({ closeMenu }) => {
           </Link>
         </li>
         <li className="font-semibold">
-          <Link to="#" onClick={closeMenu}>
+          <Link to="/blocknumber" onClick={closeMenu}>
             Block Number
           </Link>
         </li>
@@ -65,7 +88,7 @@ const Navbar = ({ closeMenu }) => {
         </ul>
 
         <li className="font-semibold">
-          <Link to="/" onClick={closeMenu}>
+          <Link to="/" onClick={() => localStorage.clear()}>
             <button className="w-full bg-purple-600 text-white rounded-full py-2 mt-4 text-lg">
               Logout
             </button>
