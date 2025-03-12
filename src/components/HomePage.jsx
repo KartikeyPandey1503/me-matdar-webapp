@@ -129,7 +129,7 @@ const HomePage = () => {
 
 const features = [
   { label: "Auto call Message", icon: <FaPhoneAlt />, link: "/page3" },
-  { label: "Daily Banner", icon: null },
+  { label: "Daily Banner", icon: null, link: "/dailybanner" },
   { label: "Mini website", icon: null },
   { label: "Bulk Messenger", icon: null },
   { label: "Voter APP", icon: null },
