@@ -3,49 +3,23 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 
 const DailyBanner = () => {
-  console.log("DailyBanner component is rendering..."); // Debugging log
   const navigate = useNavigate();
 
-  // ✅ Temporary images from Unsplash & Google
+  // ✅ Default Banner Images (for slideshow)
   const defaultBanners = [
     "https://source.unsplash.com/400x200/?banner",
     "https://source.unsplash.com/400x200/?festival",
     "https://source.unsplash.com/400x200/?business",
   ];
 
-  const festivalGraphics = [
-    "https://source.unsplash.com/100x100/?celebration",
-    "https://source.unsplash.com/100x100/?festival",
-  ];
-
-  const festivalReels = [
-    "https://source.unsplash.com/100x100/?video",
-    "https://source.unsplash.com/100x100/?music",
-  ];
-
-  const businessGraphics = [
-    "https://source.unsplash.com/100x100/?startup",
-    "https://source.unsplash.com/100x100/?corporate",
-  ];
-
-  const businessReels = [
-    "https://source.unsplash.com/100x100/?marketing",
-    "https://source.unsplash.com/100x100/?advertising",
-  ];
-
-  // OR Use Google Image Links (temporary placeholders)
-  const googleImages = [
-    "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/6/6a/Moon.jpg",
-    "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png",
-  ];
+  // ✅ Full Image Sets for Each Section
+  const festivalGraphics = new Array(7).fill("https://wallpapercave.com/wp/wp1989190.jpg");
+  const festivalReels = new Array(7).fill("https://wallpapercave.com/wp/wp1989190.jpg");
+  const businessGraphics = new Array(7).fill("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/small-business-flyers-instagram-reel-design-template-92fa20d3bf826eceac3fa59c805a8f53_screen.jpg?ts=1672718892");
+  const businessReels = new Array(7).fill("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/small-business-flyers-instagram-reel-design-template-92fa20d3bf826eceac3fa59c805a8f53_screen.jpg?ts=1672718892");
 
   const [banners, setBanners] = useState(defaultBanners);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    console.log("Banners state: ", banners);
-  }, [banners]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,7 +43,7 @@ const DailyBanner = () => {
           <div className="text-transparent">{"<"}</div>
         </div>
 
-        {/* ✅ Image Banner */}
+        {/* ✅ Image Banner (Slideshow) */}
         {banners.length > 0 ? (
           <div className="mt-4 border-2 border-purple-500 rounded-lg text-center">
             <img
@@ -82,65 +56,11 @@ const DailyBanner = () => {
           <p className="text-gray-500 text-center mt-4">No banners available</p>
         )}
 
-        {/* ✅ Festival Graphics Section */}
-        <div className="mt-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">Festival Graphics</h3>
-            <Link to="/festival-graphics">
-              <button className="text-purple-600 font-semibold">See All</button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {festivalGraphics.map((img, idx) => (
-              <img key={idx} src={img} alt="Festival" className="w-full h-20 object-cover rounded-lg" />
-            ))}
-          </div>
-        </div>
-
-        {/* ✅ Festival Reels Section */}
-        <div className="mt-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">Festival Reels</h3>
-            <Link to="/festival-reels">
-              <button className="text-purple-600 font-semibold">See All</button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {festivalReels.map((img, idx) => (
-              <img key={idx} src={img} alt="Reel" className="w-full h-20 object-cover rounded-lg" />
-            ))}
-          </div>
-        </div>
-
-        {/* ✅ Business Graphics Section */}
-        <div className="mt-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">Business Graphics</h3>
-            <Link to="/business-graphics">
-              <button className="text-purple-600 font-semibold">See All</button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {businessGraphics.map((img, idx) => (
-              <img key={idx} src={img} alt="Business" className="w-full h-20 object-cover rounded-lg" />
-            ))}
-          </div>
-        </div>
-
-        {/* ✅ Business Reels Section */}
-        <div className="mt-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">Business Reels</h3>
-            <Link to="/business-reels">
-              <button className="text-purple-600 font-semibold">See All</button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {businessReels.map((img, idx) => (
-              <img key={idx} src={img} alt="Reel" className="w-full h-20 object-cover rounded-lg" />
-            ))}
-          </div>
-        </div>
+        {/* ✅ Horizontal Scrollable Sections with Full Images */}
+        <Section title="Festival Graphics" images={festivalGraphics} />
+        <Section title="Festival Reels" images={festivalReels} />
+        <Section title="Business Graphics" images={businessGraphics} />
+        <Section title="Business Reels" images={businessReels} />
 
         {/* ✅ Back to Home Button */}
         <div className="mt-4 text-center">
@@ -150,6 +70,34 @@ const DailyBanner = () => {
             </button>
           </Link>
         </div>
+      </div>
+    </div>
+  );
+};
+
+// ✅ Reusable Horizontal Scrollable Section Component
+const Section = ({ title, images }) => {
+  console.log(`Images for ${title}:`, images); // Debugging
+
+  return (
+    <div className="mt-4">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-bold">{title}</h3>
+        <Link to={`/${title.toLowerCase().replace(" ", "-")}`}>
+          <button className="text-purple-600 font-semibold">See All</button>
+        </Link>
+      </div>
+
+      {/* ✅ Horizontal Scroll Fix */}
+      <div className="overflow-x-scroll flex gap-2 scrollbar-hide whitespace-nowrap mt-2">
+        {images.map((img, idx) => (
+          <img
+            key={idx}
+            src={img}
+            alt={title}
+            className="w-32 h-32 object-cover rounded-lg flex-shrink-0"
+          />
+        ))}
       </div>
     </div>
   );
